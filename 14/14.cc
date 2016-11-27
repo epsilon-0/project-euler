@@ -2,39 +2,57 @@
 
 using namespace std;
 
-int chainSize[5000006] = {0};
+const int MAXSIZE  = 5000006;
 
-int preCompute(int i){
-  if(i == 1){
-    chainSize[1] = 1;
+int chainSize[MAXSIZE] = {0}, idOfMax[MAXSIZE] = {0};
+
+int collatzChainSize(long long n){
+  if(n == 1)
     return 1;
+  if(n < MAXSIZE && chainSize[(int) n] != 0){  
+    return chainSize[(int) n];
   }
-
-  int nextNum = ((i % 2 == 0)? i/2 : 3*i + 1);
-  if(i > 5000006){
-    return 1 + preCompute(nextNum);
-  }
-  else if( i < 5000006 && chainSize[i] == 0){
-    preCompute(nextNum);
-    chainSize[i] = chainSize[nextNum] + 1;
-  }
-  return chainSize[i];
+  long long nextNum = (n % 2 == 0)? n/2 : 3*n+1;
+  int ans = 1 + collatzChainSize(nextNum);
+  if(n < MAXSIZE)
+    chainSize[(int) n] = ans;
+  return ans;
 }
 
+/*
+int collatzChainSize(long long n){
+  int ans = 1;
+  while(n > 1){
+    n = (n % 2 == 0)? n/2 : 3*n+1;
+    ans++;
+  }
+  return ans;
+}
+*/
 void init(){
-  for(int i = 1; i < 5000006; i++){
-    chainSize[i] = preCompute(i);
-    cout << i << endl;
+  chainSize[1] = 1;
+  for(int i = 2; i < MAXSIZE; i++){
+    chainSize[i] = collatzChainSize((long long) i);
   }
 }
 
 int main() {
-  preCompute(4255);
   init();
+  idOfMax[1] = 1;
+  int mMax = 1;
+  int mId = 1;
+  for(int i = 2; i < MAXSIZE; i++){
+    if(mMax <= chainSize[i]){
+      mMax = chainSize[i];
+      mId = i;
+    }
+    idOfMax[i] = mId;
+  }
   int t;
   cin >> t;
   while(t--){
     int n;
     cin >> n;
+    cout << idOfMax[n] << endl;
   }
 }
