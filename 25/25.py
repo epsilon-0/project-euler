@@ -1,19 +1,9 @@
-numTests = int(raw_input())
+from math import *
 
-l = [0,1]
-
-mappedList = dict()
-mappedList[1] = 1
-
-countt = 2
-
-while(str(l[-1]) != 5000):
-  l.append(l[-1] + l[-2])
-  l.pop(0)
-  if len(str(l[-1])) not in mappedList:
-    mappedList[len(str(l[-1]))] = countt
-  countt += 1
+numTests = int(input())
 
 for tt in range(numTests):
-  n = int(raw_input())
-  print(mappedList[n])
+  n = int(input())
+  logPhi = log((1 + sqrt(5))/2)
+  m = ceil(( (log(10) * (n-1)) + (log(5)/2))/logPhi)
+  print(m)
