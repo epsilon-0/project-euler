@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # compile
-g++ $1.cc -o $1 -O2 -Wall -Wextra -std=gnu++0x || exit
+g++ $1.cc -o $1 -O2 -Wall -Wextra -std=c++17 || exit
 
 # check time
 time ./$1 < $1.in > $1.out 
